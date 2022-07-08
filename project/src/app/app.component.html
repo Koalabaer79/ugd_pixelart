@@ -1,0 +1,55 @@
+<h1>UGD - Pixel Art Project</h1>
+
+<hr />
+
+<div class="palette">
+  <button *ngFor="let size of picSizes" (click)="choseSize(size)">{{size}} x {{size}}</button>
+</div>
+
+<hr />
+
+<div class="palette">
+  <button (click)="genPic()">Generate Preview</button>
+  <button (click)="delPreview()" *ngIf="delPic">Delete Preview</button>
+</div>
+<div class="palette">
+  <button (click)="saveAs('png')" *ngIf="delPic">Save as PNG</button>
+  <button (click)="saveAs('jpg')" *ngIf="delPic">Save as JPG</button>
+  <button (click)="saveAs('gif')" *ngIf="delPic">Save as GIF</button>
+</div>
+
+<div *ngIf="captureCont" id="capturedImage" class="capturedImage">
+  
+</div>
+<a #downloadLink></a>
+
+<hr />
+
+<div class="palette">
+  <button (click)="chooseTool('brush')" [attr.class]="brush"><img src="./assets/brush.png" alt="Brush Tool" title="Brush Tool"></button>
+  <button (click)="chooseTool('bucket')" [attr.class]="bucket"><img src="./assets/bucket.png" alt="Bucket Tool" title="Bucket Tool"></button>
+</div>
+
+<div class="palette">
+  <div class="paletteRows">
+    <div *ngFor="let item of palette,let i = index"
+      id="{{'color'+i}}" 
+      class="colorItem" 
+      [attr.style]="'background-color: '+item" 
+      (click)="chooseColor(item,'color'+i)"
+      >
+    </div>
+  </div>
+</div>
+
+<div id="capture" class="cont" *ngIf="showCont">
+  <div *ngFor="let row of picture | keyvalue, let j = index" class="rows" id="{{row.key}}">
+    <div *ngFor="let col of picture['row'+j] | keyvalue, let i = index"
+      [attr.class]="colClass" 
+      id="{{row.key+'-'+col.key}}" 
+      [attr.style]="'background-color: '+col.value" 
+      (mousedown)="startRecording($event)" 
+      (mouseup)="stopRecording()" 
+      (mousemove)="detectDiv($event)"></div>
+  </div>
+</div>
