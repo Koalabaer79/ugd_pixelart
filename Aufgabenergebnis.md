@@ -6,7 +6,11 @@ Folgende Technologien / Frameworks setze ich in meinem Projekt ein:
 
 - Angular mit Typescript
 
-Ich habe mich für Angular entschieden, weil die Tabellenbehandlung und Ausgabe mit Angular sehr gut funktioniert.
+Ich habe mich für Angular entschieden, weil ich gerne mit diesem Framework arbeite.
+Jedoch hat sich jetzt herausgestellt, dass die ngFor Loop-Funktion durch das Objekt zur Erstellung des Grids nicht so funktioniert wie ich es mir wünsche. Die Anordnung der Zellen ist -> 0 1 10 11 2 20 21 und das funktioniert so nicht mit der Anzeige. Wenn ich die Farben in des Objekt in die Keys von Row und Col einsetzen will, dann erscheinen sie woanders und nicht dort, wo sie sollen.
+Ich müsste jetzt noch ein bisschen puzzeln, doch dazu rennt mir die Zeit weg...
+
+
 
 ## Eingesetzte 3rd Party Libraries
 

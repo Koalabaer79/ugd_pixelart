@@ -43,13 +43,13 @@
 </div>
 
 <div id="capture" class="cont" *ngIf="showCont">
-  <div *ngFor="let row of picture | keyvalue, let j = index" class="rows" id="{{'row'+j}}">
+  <div *ngFor="let row of picture | keyvalue, let j = index" class="rows" id="{{row.key}}">
     <div *ngFor="let col of picture['row'+j] | keyvalue, let i = index"
       [attr.class]="colClass" 
-      id="{{'row'+j+'-'+'col'+i}}" 
+      id="{{row.key+'-'+col.key}}" 
       [attr.style]="'background-color: '+col.value" 
-      (mousedown)="startRecording('row'+j+'-'+'col'+i)" 
+      (mousedown)="startRecording(row.key+'-'+col.key)" 
       (mouseup)="stopRecording()" 
-      (mousemove)="detectDiv('row'+j+'-'+'col'+i)"></div>
+      (mousemove)="detectDiv(row.key+'-'+col.key)"></div>
   </div>
 </div>
