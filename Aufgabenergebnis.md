@@ -10,11 +10,9 @@ Ich habe mich für Angular entschieden, weil die Tabellenbehandlung und Ausgabe 
 
 ## Eingesetzte 3rd Party Libraries
 
-Ich habe keine extra Libraries genommen, da sie mir für das kleine aber feine Projekt nichts nützen.
+Ich habe keine extra Libraries benutzt, da sie mir für das kleine aber feine Projekt nichts nützen.
 
 ## Installation / Ausführen des Projektes
-
-Beschreibe, wie wir uns das Projekt lokal anschauen können.
 
 - Repository clonen
 - Angular Projekt nach Installation lokal ausführen
@@ -23,8 +21,8 @@ Beschreibe, wie wir uns das Projekt lokal anschauen können.
 
 Folgende Komponenten müssen lokal installiert sein:
 
-- [npm](https://www.npmjs.com/) v13.2.0
-- [nodeJS](https://nodejs.org/de/) 16.15.1 LTS
+- [npm](https://www.npmjs.com/) 6.14.13
+- [nodeJS](https://nodejs.org/de/) v14.17.1
 - [.NET Core](https://dotnet.microsoft.com/download) v3.1
 
 Um das Projekt lokal auszuführen, folgendes in der Commandline / Bash eingeben:

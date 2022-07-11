@@ -1,5 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import html2canvas from 'html2canvas';
+import { color } from 'html2canvas/dist/types/css/types/color';
+import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,7 @@ export class AppComponent {
   bucket: string;
   capturedImage: any;
   chosenColor: string;
+  colorFound: string;
 
   @ViewChild('downloadLink') downloadLink: ElementRef | undefined;
 
@@ -33,6 +36,7 @@ export class AppComponent {
       8,12,16,32
     ]
     this.chosenColor = "";
+    this.colorFound = "";
     this.cells = 8;
     this.colClass = "";
     this.showCont = false;
@@ -140,11 +144,11 @@ export class AppComponent {
   detectDiv(val:any) {
     if(this.mouseStatus == true) {
       let id = val.path[0].id;
-
-      // Paint of fill with color, depending on what tool has been chosen
+      // Paint or fill with color, depending on what tool has been chosen
       if(this.tool == "brush") {
         this.paint(id);
       }else if(this.tool == "bucket") {
+        this.colorFound = "";
         this.fillColor(id);
       }      
     }
@@ -153,7 +157,8 @@ export class AppComponent {
   // Fill cells with chosen color
   paint(id:string) {
     if(this.chosenColor != "") {
-      document.getElementById(id)!.style.backgroundColor = this.chosenColor;
+      let splittedId = this.splitId(id);
+      this.picture[splittedId.row][splittedId.col] = this.chosenColor;
     }
   }
 
@@ -161,46 +166,59 @@ export class AppComponent {
   fillColor(id:string) {
     // Split cell id in row and column
     let splittedId = this.splitId(id);
-    // Get the color of the clicked cell
-    let colorFound = this.picture[splittedId.row][splittedId.col];
+    // Get the color of the clicked cell if not defined already
+    if(this.colorFound == '') {
+      this.colorFound = this.picture[splittedId.row][splittedId.col];
+    }
     // Create object of attaching cell
     let neighbours = this.checkNeighbours(id);
     // Fill clicked cell with chosen color
     this.picture[splittedId.row][splittedId.col] = this.chosenColor;
 
     // If neighbouring cells have the same color of the clicked cell, fill them with chosen color
-    if(this.picture[neighbours.top[0]][neighbours.top[1]] == colorFound) {
-      
-      this.picture[neighbours.top[0]][neighbours.top[1]] = this.chosenColor;
+    if(neighbours.top[2] == this.colorFound) {
+      let newID = neighbours.top[0]+"-"+neighbours.top[1];
+      this.fillColor(newID);
     }
-    if(this.picture[neighbours.bottom[0]][neighbours.bottom[1]] == colorFound) {
-      this.picture[neighbours.bottom[0]][neighbours.bottom[1]] = this.chosenColor;
+    if(neighbours.bottom[2] == this.colorFound) {
+      let newID = neighbours.bottom[0]+"-"+neighbours.bottom[1];
+      this.fillColor(newID);
     }
-    if(this.picture[neighbours.left[0]][neighbours.left[1]] == colorFound) {
-      this.picture[neighbours.left[0]][neighbours.left[1]] = this.chosenColor;
+    if(neighbours.left[2] == this.colorFound) {
+      let newID = neighbours.left[0]+"-"+neighbours.left[1];
+      this.fillColor(newID);
     }
-    if(this.picture[neighbours.right[0]][neighbours.right[1]] == colorFound) {
-      this.picture[neighbours.right[0]][neighbours.right[1]] = this.chosenColor;
+    if(neighbours.right[2] == this.colorFound) {
+      let newID = neighbours.right[0]+"-"+neighbours.right[1];
+      this.fillColor(newID);
     }
   }
 
   // Return object with attached cells of clicked cell
   checkNeighbours(id:string) {
     let splittedId = this.splitId(id);
-    let arr: any = [];
+
+    let arr : any = {
+      top: "",
+      bottom: "",
+      left: "",
+      right: ""
+    };
 
     // Check if neighbour cells are still in range (not less than 0 or higher than amount of total cells in row / column)
-    if(splittedId.rowNum - 1 >= 0) {
-      arr['top'] = ["row"+(splittedId.rowNum - 1),splittedId.col];
-    }if(splittedId.rowNum + 1 <= this.cells) {
-      arr['bottom'] = ["row"+(splittedId.rowNum + 1),splittedId.col];
+    if((splittedId.rowNum - 1) >= 0) {
+      arr.top = ["row"+(splittedId.rowNum - 1),splittedId.col,this.picture["row"+(splittedId.rowNum - 1)][splittedId.col]];
+    }
+    if((splittedId.rowNum + 1) < this.cells) {
+      arr.bottom = ["row"+(splittedId.rowNum + 1),splittedId.col,this.picture["row"+(splittedId.rowNum + 1)][splittedId.col]];
     }
     if((splittedId.colNum - 1) >= 0) {
-      arr['left'] = [splittedId.row,"col"+(splittedId.colNum - 1)];
-    }if((splittedId.colNum + 1) <= this.cells) {
-      arr['right'] = [splittedId.row,"col"+(splittedId.colNum + 1)];
+      arr.left = [splittedId.row,"col"+(splittedId.colNum - 1),this.picture[splittedId.row]["col"+(splittedId.colNum - 1)]];
     }
-
+    if((splittedId.colNum + 1) < this.cells) {
+      arr.right = [splittedId.row,"col"+(splittedId.colNum + 1),this.picture[splittedId.row]["col"+(splittedId.colNum + 1)]];
+    }
+    
     return arr;
   }
 
