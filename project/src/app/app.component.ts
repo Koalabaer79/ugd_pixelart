@@ -94,6 +94,7 @@ export class AppComponent {
   choseSize(val:number) {
     this.picture = {};
     this.cells = val;
+    this.delPreview();
     this.genCont(val);
   }
 
