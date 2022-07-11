@@ -94,8 +94,10 @@ export class AppComponent {
   choseSize(val:number) {
     this.picture = {};
     this.cells = val;
-    this.delPreview();
     this.genCont(val);
+    if(document.getElementById('capturedImage')!.innerHTML != "") {
+      this.delPreview();
+    }    
   }
 
   // Chose color to fill cells with
@@ -159,7 +161,9 @@ export class AppComponent {
   paint(id:string) {
     if(this.chosenColor != "") {
       let splittedId = this.splitId(id);
+      console.log(this.picture)
       this.picture[splittedId.row][splittedId.col] = this.chosenColor;
+      // document.getElementById(id)!.style.backgroundColor = this.chosenColor;
     }
   }
 
@@ -191,6 +195,7 @@ export class AppComponent {
     }
     if(neighbours.right[2] == this.colorFound) {
       let newID = neighbours.right[0]+"-"+neighbours.right[1];
+      // this.picture[neighbours.right[0]][neighbours.right[1]] = this.chosenColor;
       this.fillColor(newID);
     }
   }
