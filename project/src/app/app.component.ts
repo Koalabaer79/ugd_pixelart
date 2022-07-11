@@ -162,7 +162,7 @@ export class AppComponent {
     if(this.chosenColor != "") {
       let splittedId = this.splitId(id);
       this.picture[splittedId.row][splittedId.col] = this.chosenColor;
-      console.log(splittedId.col)
+      // console.log(splittedId.col)
       // document.getElementById(id)!.style.backgroundColor = this.chosenColor;
     }
   }
