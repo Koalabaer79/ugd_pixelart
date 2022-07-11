@@ -147,7 +147,6 @@ export class AppComponent {
   detectDiv(val:any) {
     if(this.mouseStatus == true) {
       let id = val;
-      console.log(id)
       // Paint or fill with color, depending on what tool has been chosen
       if(this.tool == "brush") {
         this.paint(id);
@@ -171,6 +170,7 @@ export class AppComponent {
   fillColor(id:string) {
     // Split cell id in row and column
     let splittedId = this.splitId(id);
+    console.log(id)
     // Get the color of the clicked cell if not defined already
     if(this.colorFound == '') {
       this.colorFound = this.picture[splittedId.row][splittedId.col];
