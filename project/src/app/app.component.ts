@@ -95,7 +95,7 @@ export class AppComponent {
     this.picture = {};
     this.cells = val;
     this.genCont(val);
-    if(document.getElementById('capturedImage')!.innerHTML != "") {
+    if(this.captureCont == true) {
       this.delPreview();
     }    
   }
@@ -146,7 +146,7 @@ export class AppComponent {
   // If mouse is active start painting when moving
   detectDiv(val:any) {
     if(this.mouseStatus == true) {
-      let id = val.path[0].id;
+      let id = val;
       // Paint or fill with color, depending on what tool has been chosen
       if(this.tool == "brush") {
         this.paint(id);
@@ -161,8 +161,8 @@ export class AppComponent {
   paint(id:string) {
     if(this.chosenColor != "") {
       let splittedId = this.splitId(id);
-      console.log(this.picture)
       this.picture[splittedId.row][splittedId.col] = this.chosenColor;
+      console.log(splittedId.col)
       // document.getElementById(id)!.style.backgroundColor = this.chosenColor;
     }
   }
